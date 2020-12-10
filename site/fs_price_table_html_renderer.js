@@ -89,7 +89,7 @@ class HTMLEmulator {
         for (var i = 0; i < trs.length; i++) {
             var name = trs[i].getAttribute('name');
             var sparkSpan = trs[i].getElementsByClassName('js_spark')[0];
-            Sparkline.draw(sparkSpan, store.get(name))
+            this.Sparkline.draw(sparkSpan, store.get(name))
         }
     }
 
