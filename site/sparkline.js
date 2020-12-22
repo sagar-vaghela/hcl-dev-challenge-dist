@@ -23,8 +23,8 @@
 
 
     function extend(specific, general){
-        var obj = {};
-        for(var key in general){
+        const obj = {};
+        for(let key in general){
             obj[key] = key in specific ? specific[key] : general[key];
         }
         return obj;
@@ -66,13 +66,13 @@
     };
 
     Sparkline.draw = function(element, points, options){
-        var sparkline = new Sparkline(element, options);
+        let sparkline = new Sparkline(element, options);
         sparkline.draw(points);
         return sparkline;
     }
 
     function getY(minValue, maxValue, offsetY, height, index){
-        var range = maxValue - minValue;
+        let range = maxValue - minValue;
         if(range == 0){
           return offsetY + height/2;
         }else{
@@ -88,9 +88,9 @@
     }
   
     function showTooltip(e){
-        var x = e.offsetX || e.layerX || 0;
-        var delta = ((this.options.width - this.options.dotRadius*2) / (this.points.length - 1));
-        var index = minmax(0, Math.round((x - this.options.dotRadius)/delta), this.points.length - 1);
+        let x = e.offsetX || e.layerX || 0;
+        let delta = ((this.options.width - this.options.dotRadius*2) / (this.points.length - 1));
+        let index = minmax(0, Math.round((x - this.options.dotRadius)/delta), this.points.length - 1);
         
         this.canvas.title = this.options.tooltip(this.points[index], index, this.points);
     }
@@ -105,28 +105,29 @@
         this.canvas.style.width = this.options.width + 'px';
         this.canvas.style.height = 20 + 'px';
 
-        var offsetX = this.options.dotRadius*this.ratio;
-        var offsetY = this.options.dotRadius*this.ratio;
-        var width = this.canvas.width - offsetX*2;
-        var height = this.canvas.height - offsetY*2;
+        let offsetX = this.options.dotRadius*this.ratio;
+        let offsetY = this.options.dotRadius*this.ratio;
+        let width = this.canvas.width - offsetX*2;
+        let height = this.canvas.height - offsetY*2;
 
-        var minValue = this.options.minValue || Math.min.apply(Math, points);
-        var maxValue = this.options.maxValue || Math.max.apply(Math, points);
-        var minX = offsetX;
-        var maxX = offsetX;
+        let minValue = this.options.minValue || Math.min.apply(Math, points);
+        let maxValue = this.options.maxValue || Math.max.apply(Math, points);
+        let minX = offsetX;
+        let maxX = offsetX;
 
-        var x = offsetX;
-        var y = getY.bind(points, minValue, maxValue, offsetY, height);
-        var delta = width / (points.length - 1);
+        let x = offsetX;
+        let y = getY.bind(points, minValue, maxValue, offsetY, height);
+        let delta = width / (points.length - 1);
 
-        var dot = drawDot.bind(this.context, this.options.dotRadius*this.ratio);
+        let dot = drawDot.bind(this.context, this.options.dotRadius*this.ratio);
 
         this.context.beginPath();
         this.context.strokeStyle = this.options.lineColor;
         this.context.lineWidth = this.options.lineWidth*this.ratio;
 
         this.context.moveTo(x, y(0));
-        for(var i=1; i<points.length; i++){
+        let i;
+        for(i=1; i<points.length; i++){
             x += delta;
             this.context.lineTo(x, y(i));
 

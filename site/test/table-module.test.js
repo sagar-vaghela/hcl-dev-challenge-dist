@@ -6,7 +6,7 @@ const DataHandler = require('../fx_service_data_emitter');
 const HTMLEmulator = require('../fs_price_table_html_renderer');
 
 window.localStorage = (function () {
-    var store = {};
+    const store = {};
 
     function getItem(key) {
         return store[key];

@@ -1,9 +1,9 @@
 require('babel-register')();
 
-var jsdom = require('jsdom');
+const jsdom = require('jsdom');
 const { JSDOM } = jsdom;
 
-var exposedProperties = ['window', 'navigator', 'document'];
+const exposedProperties = ['window', 'navigator', 'document'];
 
 const { document } = (new JSDOM(`...`, {url: "http://localhost"})).window;
 

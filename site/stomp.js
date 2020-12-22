@@ -8,7 +8,7 @@
  */
 
 (function() {
-  var Byte, Client, Frame, Stomp,
+  let Byte, Client, Frame, Stomp,
     __hasProp = {}.hasOwnProperty,
     __slice = [].slice;
 
@@ -18,7 +18,7 @@
   };
 
   Frame = (function() {
-    var unmarshallSingle;
+    let unmarshallSingle;
 
     function Frame(command, headers, body) {
       this.command = command;
@@ -27,7 +27,7 @@
     }
 
     Frame.prototype.toString = function() {
-      var lines, name, skipContentLength, value, _ref;
+      let lines, name, skipContentLength, value, _ref;
       lines = [this.command];
       skipContentLength = this.headers['content-length'] === false ? true : false;
       if (skipContentLength) {
@@ -55,7 +55,7 @@
     };
 
     unmarshallSingle = function(data) {
-      var body, chr, command, divider, headerLines, headers, i, idx, len, line, start, trim, _i, _j, _len, _ref, _ref1;
+      let body, chr, command, divider, headerLines, headers, i, idx, len, line, start, trim, _i, _j, _len, _ref, _ref1;
       divider = data.search(RegExp("" + Byte.LF + Byte.LF));
       headerLines = data.substring(0, divider).split(Byte.LF);
       command = headerLines.shift();
@@ -88,14 +88,14 @@
     };
 
     Frame.unmarshall = function(datas) {
-      var frame, frames, last_frame, r;
+      let frame, frames, last_frame, r;
       frames = datas.split(RegExp("" + Byte.NULL + Byte.LF + "*"));
       r = {
         frames: [],
         partial: ''
       };
       r.frames = (function() {
-        var _i, _len, _ref, _results;
+        let _i, _len, _ref, _results;
         _ref = frames.slice(0, -1);
         _results = [];
         for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -114,7 +114,7 @@
     };
 
     Frame.marshall = function(command, headers, body) {
-      var frame;
+      let frame;
       frame = new Frame(command, headers, body);
       return frame.toString() + Byte.NULL;
     };
@@ -124,7 +124,7 @@
   })();
 
   Client = (function() {
-    var now;
+    let now;
 
     function Client(ws) {
       this.ws = ws;
@@ -141,7 +141,7 @@
     }
 
     Client.prototype.debug = function(message) {
-      var _ref;
+      let _ref;
       return typeof window !== "undefined" && window !== null ? (_ref = window.console) != null ? _ref.log(message) : void 0 : void 0;
     };
 
@@ -154,7 +154,7 @@
     };
 
     Client.prototype._transmit = function(command, headers, body) {
-      var out;
+      let out;
       out = Frame.marshall(command, headers, body);
       if (typeof this.debug === "function") {
         this.debug(">>> " + out);
@@ -173,12 +173,12 @@
     };
 
     Client.prototype._setupHeartbeat = function(headers) {
-      var serverIncoming, serverOutgoing, ttl, v, _ref, _ref1;
+      let serverIncoming, serverOutgoing, ttl, v, _ref, _ref1;
       if ((_ref = headers.version) !== Stomp.VERSIONS.V1_1 && _ref !== Stomp.VERSIONS.V1_2) {
         return;
       }
       _ref1 = (function() {
-        var _i, _len, _ref1, _results;
+        let _i, _len, _ref1, _results;
         _ref1 = headers['heart-beat'].split(",");
         _results = [];
         for (_i = 0, _len = _ref1.length; _i < _len; _i++) {
@@ -206,7 +206,7 @@
         }
         return this.ponger = Stomp.setInterval(ttl, (function(_this) {
           return function() {
-            var delta;
+            let delta;
             delta = now() - _this.serverActivity;
             if (delta > ttl * 2) {
               if (typeof _this.debug === "function") {
@@ -220,7 +220,7 @@
     };
 
     Client.prototype._parseConnect = function() {
-      var args, connectCallback, errorCallback, headers;
+      let args, connectCallback, errorCallback, headers;
       args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
       headers = {};
       switch (args.length) {
@@ -244,7 +244,7 @@
     };
 
     Client.prototype.connect = function() {
-      var args, errorCallback, headers, out;
+      let args, errorCallback, headers, out;
       args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
       out = this._parseConnect.apply(this, args);
       headers = out[0], this.connectCallback = out[1], errorCallback = out[2];
@@ -253,9 +253,9 @@
       }
       this.ws.onmessage = (function(_this) {
         return function(evt) {
-          var arr, c, client, data, frame, messageID, onreceive, subscription, unmarshalledData, _i, _len, _ref, _results;
+          let arr, c, client, data, frame, messageID, onreceive, subscription, unmarshalledData, _i, _len, _ref, _results;
           data = typeof ArrayBuffer !== 'undefined' && evt.data instanceof ArrayBuffer ? (arr = new Uint8Array(evt.data), typeof _this.debug === "function" ? _this.debug("--- got data length: " + arr.length) : void 0, ((function() {
-            var _i, _len, _results;
+            let _i, _len, _results;
             _results = [];
             for (_i = 0, _len = arr.length; _i < _len; _i++) {
               c = arr[_i];
@@ -326,7 +326,7 @@
       })(this);
       this.ws.onclose = (function(_this) {
         return function() {
-          var msg;
+          let msg;
           msg = "Whoops! Lost connection to " + _this.ws.url;
           if (typeof _this.debug === "function") {
             _this.debug(msg);
@@ -380,7 +380,7 @@
     };
 
     Client.prototype.subscribe = function(destination, callback, headers) {
-      var client;
+      let client;
       if (headers == null) {
         headers = {};
       }
@@ -407,7 +407,7 @@
     };
 
     Client.prototype.begin = function(transaction) {
-      var client, txid;
+      let client, txid;
       txid = transaction || "tx-" + this.counter++;
       this._transmit("BEGIN", {
         transaction: txid
@@ -468,7 +468,7 @@
       }
     },
     client: function(url, protocols) {
-      var klass, ws;
+      let klass, ws;
       if (protocols == null) {
         protocols = ['v10.stomp', 'v11.stomp'];
       }

@@ -1,5 +1,5 @@
-var last30SecondStore = (function () {
-    var store = {};
+const last30SecondStore = (function () {
+    const store = {};
 
     function set(key, value) {
         if (store[key]) {
@@ -28,13 +28,12 @@ class HTMLEmulator {
         this.Sparkline = Sparkline;
     }
 
-    //i/p = {"name":"euraud","bestBid":1,"bestAsk":1,"openBid":1,"openAsk":1,"lastChangeAsk":0,"lastChangeBid":0}
     _createTableRow(data) {
-        var tr = document.createElement('tr');
+        let tr = document.createElement('tr');
         tr.setAttribute('name', data.name);
 
-        for (var key in data) {
-            var td = document.createElement('td');
+        for (let key in data) {
+            let td = document.createElement('td');
             td.innerHTML = data[key];
             tr.appendChild(td);
         }
@@ -43,7 +42,7 @@ class HTMLEmulator {
     }
 
     _createGraphTD(data) {
-        var td = document.createElement('td');
+        let td = document.createElement('td');
         const sparks = document.createElement('span');
         sparks.setAttribute('class', 'js_spark');
         td.appendChild(sparks);
@@ -51,17 +50,17 @@ class HTMLEmulator {
     }
 
     _saveMidPriceForAll(data) {
-        var midPrice = (data.bestBid + data.bestAsk) / 2;
-        var store = last30SecondStore.get();
-        for (var key in store) {
+        let midPrice = (data.bestBid + data.bestAsk) / 2;
+        let store = last30SecondStore.get();
+        for (let key in store) {
             last30SecondStore.set(key, store[key][store[key].length - 1]);
         }
         last30SecondStore.set(data.name, midPrice);
     }
 
     _sortTable(tb, col, reverse) {
-        var trs = Array.prototype.slice.call(tb.getElementsByTagName('tr'), 0);
-        var i;
+        let trs = Array.prototype.slice.call(tb.getElementsByTagName('tr'), 0);
+        let i;
         reverse = -((+reverse) || -1);
         trs = trs.sort((a, b)=> reverse * (parseFloat(a.cells[col].textContent) - parseFloat(b.cells[col].textContent)));
         for (i = 0; i < trs.length; ++i) tb.appendChild(trs[i]);
@@ -69,9 +68,10 @@ class HTMLEmulator {
 
 
     _addOrUpdateRow(tb, data) {
-        var trs = tb.getElementsByTagName('tr');
+        let trs = tb.getElementsByTagName('tr');
 
-        for (var i = 0; i < trs.length; i++) {
+        let i;
+        for (i = 0; i < trs.length; i++) {
             if (trs[i].getAttribute('name') === data.name) {
                 break;
             }
@@ -80,15 +80,15 @@ class HTMLEmulator {
             trs[i].remove();
         }
         //add row
-        var newRow = this._createTableRow(data);
+        let newRow = this._createTableRow(data);
         tb.appendChild(newRow);
     }
 
     _drawSparkLines(tb, store) {
-        var trs = tb.getElementsByTagName('tr');
-        for (var i = 0; i < trs.length; i++) {
-            var name = trs[i].getAttribute('name');
-            var sparkSpan = trs[i].getElementsByClassName('js_spark')[0];
+        let trs = tb.getElementsByTagName('tr');
+        for (let i = 0; i < trs.length; i++) {
+            let name = trs[i].getAttribute('name');
+            let sparkSpan = trs[i].getElementsByClassName('js_spark')[0];
             this.Sparkline.draw(sparkSpan, store.get(name))
         }
     }
