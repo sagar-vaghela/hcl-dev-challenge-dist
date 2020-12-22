@@ -8,11 +8,11 @@ const HTMLEmulator = require('../fs_price_table_html_renderer');
 window.localStorage = (function () {
     const store = {};
 
-    function getItem(key) {
+    const getItem = (key) => {
         return store[key];
     }
 
-    function setItem(key, value) {
+    const setItem = (key, value) => {
         store[key] = value;
     }
 

@@ -22,7 +22,7 @@
 }(this, function () {
 
 
-    function extend(specific, general){
+    const extend = (specific, general) => {
         const obj = {};
         for(let key in general){
             obj[key] = key in specific ? specific[key] : general[key];

@@ -1,7 +1,7 @@
 const last30SecondStore = (function () {
     const store = {};
 
-    function set(key, value) {
+    const set = (key, value) =>{
         if (store[key]) {
             if (store[key].length >= 30) {
                 store[key].shift();
@@ -12,7 +12,7 @@ const last30SecondStore = (function () {
         }
     }
 
-    function get(key) {
+    const get = (key) => {
         return key ? store[key] : store;
     }
 

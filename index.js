@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
     initPage();
 });
 
-function initPage(){
+const initPage = () => {
     var container = document.getElementById('root');
     var config = {
         container: container,
